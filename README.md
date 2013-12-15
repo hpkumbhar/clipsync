@@ -5,15 +5,15 @@ background and watches all of the clipboards for any change.
 
 Any of the following actions should be noticed for the purpose of copying text:
 
-    - CTRL-C in a desktop app (like Firefox)
-    - Highlighting text in a terminal (like urxvt or xterm)
-    - Putting text to the system clipboard (eg., with `:"*y` in vim)
+- CTRL-C in a desktop app (like Firefox)
+- Highlighting text in a terminal (like urxvt or xterm)
+- Putting text to the system clipboard (eg., with `:"*y` in vim)
 
 Any of the following should work for pasting from any of the methods above:
 
-    - CTRL-V in a desktop app
-    - Middle mouse button in a terminal
-    - `"*p` in vim.
+- CTRL-V in a desktop app
+- Middle mouse button in a terminal
+- `"*p` in vim.
 
 Basically anything that touches CLIPBOARD, PRIMARY, or SECONDARY in terms of
 xsel buffers.
