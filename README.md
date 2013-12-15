@@ -31,8 +31,8 @@ $ python clipsync/clipsync.py
 
 ## Requirements
 
-This should work fine with Python 2 or Python 3. Note that it requires xsel and
-assumes it can read /proc/.
+This should work fine with Python 2 or Python 3. Note that it requires `xsel` 
+(which is part of X11) and assumes it can read /proc/.
 
 ## License
 
