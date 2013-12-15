@@ -33,3 +33,8 @@ $ python clipsync/clipsync.py
 
 This should work fine with Python 2 or Python 3. Note that it requires xsel and
 assumes it can read /proc/.
+
+## License
+
+I hereby release this program into the public domain. Do with it what you will,
+I take no responsibility for whatever happens.
