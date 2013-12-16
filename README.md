@@ -34,8 +34,17 @@ I run it as a cron every minute. Copypasta:
 */1 *   *   *   *   python path/to/clipsync.py
 ```
 
-If you don't like the default pidfile location (`/tmp/clipsync.username.pid`)
-you can pass that in as the sole argument.
+## Optional arguments
+
+For the sake of not having to modify the code on every box you want to run this
+on, there are a couple of arguments you can pass in:
+
+* `-f` -  Force Clipsync to run in the foreground (ie, it won't call `os.fork()`
+  when started from a terminal). Good for debugging problems.
+* `-p /pidfile/path` - Specify a PID file path. The default is
+  `/tmp/clipsync.yourusername.pid`
+* `-x /path/to/xsel` - If for some weird reason `xsel` isn't being found, you
+  can pass in the path to run it from.
 
 ## Requirements
 
