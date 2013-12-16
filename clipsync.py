@@ -3,7 +3,7 @@
 """
 USAGE:
 
-    python clipsync.py
+    python clipsync.py  [pidfile]
 
 This should work fine with Python 2 or Python 3. Note that it requires xsel and
 assumes it can read /proc/.
@@ -76,19 +76,26 @@ def sync_clipboards():
 
             break
 
-
 if __name__ == "__main__":
-
-
-    fork = os.fork()
-    if fork:
-        sys.exit(0)
     
     import sys
+
     args = sys.argv[1:]
 
+    # Daemonize yourself if you're being run from a terminal. Otherwise it's
+    # probably a cron task or something like that, and we will want to exit with
+    # a proper exit code if anything goes wrong.
+    if sys.stdin.isatty():
+        fork = os.fork()
+        if fork:
+            sys.exit(0)
+
     pid = os.getpid()
-    pidfile = '/tmp/clipsync.pid'
+    user = pwd.getpwuid(os.getuid())[0]
+    if len(args) == 1:
+        pidfile = args[0]
+    elif not args:
+        pidfile = '/tmp/clipsync.'+user+'.pid'
 
     # If the process isn't actually running (determined by checking proc),
     # restart it. Not 100% reliable, but good enough.
