@@ -34,10 +34,13 @@ I run it as a cron every minute. Copypasta:
 */1 *   *   *   *   python path/to/clipsync.py
 ```
 
+If you don't like the default pidfile location (`/tmp/clipsync.username.pid`)
+you can pass that in as the sole argument.
+
 ## Requirements
 
 This should work fine with Python 2 or Python 3. Note that it requires `xsel` 
-(which is part of X11) and assumes it can read /proc/.
+(which is part of X11) and assumes it can read `/proc/`.
 
 ## License
 
