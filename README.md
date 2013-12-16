@@ -30,7 +30,7 @@ $ python clipsync/clipsync.py
 ```
 
 I run it as a cron every minute. Copypasta:
-```crontab
+```
 */1 *   *   *   *   python path/to/clipsync.py
 ```
 
