@@ -15,18 +15,23 @@ Any of the following should work for pasting from any of the methods above:
 - Middle mouse button in a terminal
 - `"*p` in vim.
 
-Basically anything that touches CLIPBOARD, PRIMARY, or SECONDARY in terms of
-xsel buffers.
+Basically anything that touches X11's CLIPBOARD, PRIMARY, or SECONDARY
+selection buffers.
 
 It's best to run this as a cron task, probably. If you try to start clipsync
 with another process running already for that user, it will simply check to
 make sure that the old process is running OK and exit. If the old PID is
 defunct, clipsync will clean up the pidfile and start up again.
 
-# Installation and usage:
-```
+## Installation and usage:
+```bash
 $ git clone https://github.com/petronius/clipsync/
 $ python clipsync/clipsync.py
+```
+
+I run it as a cron every minute. Copypasta:
+```crontab
+*/1 *   *   *   *   python path/to/clipsync.py
 ```
 
 ## Requirements
