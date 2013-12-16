@@ -18,10 +18,10 @@ Any of the following should work for pasting from any of the methods above:
 Basically anything that touches X11's CLIPBOARD, PRIMARY, or SECONDARY
 selection buffers.
 
-It's best to run this as a cron task, probably. If you try to start clipsync
+It's best to run this as a cron task, probably. If you try to start Clipsync
 with another process running already for that user, it will simply check to
 make sure that the old process is running OK and exit. If the old PID is
-defunct, clipsync will clean up the pidfile and start up again.
+defunct, Clipsync will clean up the pidfile and start up again.
 
 ## Installation and usage:
 ```bash
