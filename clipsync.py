@@ -32,6 +32,7 @@ defunct, clipsync will clean up the pidfile and start up again.
 
 import atexit
 import os
+import pwd
 import shlex
 import sys
 import subprocess
