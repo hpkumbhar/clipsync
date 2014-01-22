@@ -4,6 +4,7 @@
 USAGE:
 
     python clipsync.py [-p pidfile] [-f] [-x xsel_path]
+    python clipsync.py -k
 
 This should work fine with Python 2 or Python 3. Note that it requires xsel and
 assumes it can read /proc/.
@@ -28,17 +29,21 @@ It's best to run this as a cron task, probably. If you try to start clipsync
 with another process running already for that user, it will simply check to
 make sure that the old process is running OK and exit. If the old PID is
 defunct, clipsync will clean up the pidfile and start up again.
+
+If the `-k` argument is provided, clipsync will kill any pre-existing, running
+version of itself and exit.
 """
 
 import atexit
 import os
 import pwd
 import shlex
-import sys
+import signal
 import subprocess
+import sys
 import time
 
-FLAGS = ('p', 's', 'b')
+FLAGS = ('p', 's', 'b', 'k')
 XSEL_PATH='xsel'
 
 current_clipboard = None
@@ -92,6 +97,7 @@ if __name__ == "__main__":
 
     # Quick and dirtry argument parsing
     skipnext = False
+    kill = False
     for idx, arg in enumerate(args):
         if skipnext:
             skipnext = False
@@ -110,21 +116,15 @@ if __name__ == "__main__":
                 skipnext = True
             except IndexError:
                 q(__doc__)
+        elif arg == '-k':
+            kill = True
         else:
             q(__doc__)
-
-    # Daemonize yourself if you're being run from a terminal. Otherwise it's
-    # probably a cron task or something like that, and we will want to exit with
-    # a proper exit code if anything goes wrong.
-    if isatty:
-        fork = os.fork()
-        if fork:
-            sys.exit(0)
 
     pid = os.getpid()
     user = pwd.getpwuid(os.getuid())[0]
     if not pidfile:
-        pidfile = '/tmp/clipsync.'+user+'.pid'
+        pidfile = '/var/run/clipsync.'+user+'.pid'
 
     # If the process isn't actually running (determined by checking proc),
     # restart it. Not 100% reliable, but good enough.
@@ -133,12 +133,23 @@ if __name__ == "__main__":
             oldpid = f.read()
             oldproc = '/proc/'+oldpid
             if os.path.exists(oldproc):
+                if kill:
+                    # Assume the other process will clean itself up.
+                    os.kill(int(oldpid), signal.SIGKILL)
                 sys.exit(0)
             else:
                 os.remove(pidfile)
         
     with open(pidfile, 'w') as f:
         f.write(str(pid))
+
+    # Daemonize yourself if you're being run from a terminal. Otherwise it's
+    # probably a cron task or something like that, and we will want to exit with
+    # a proper exit code if anything goes wrong.
+    if isatty:
+        fork = os.fork()
+        if fork:
+            sys.exit(0)
     
     atexit.register(os.remove, pidfile)
 

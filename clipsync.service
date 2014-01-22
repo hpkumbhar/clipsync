@@ -1,0 +1,15 @@
+# An example per-user service file for starting up Clipsync with Systemd. For
+# this to work, you'll need to copy the `clipsync.py` file into the systemd
+# scripts directory at /usr/lib/systemd/scripts/
+
+[Unit]
+Description=Continuously synchronise X11 clipboards
+
+[Service]
+Type=forking
+Pidfile=/var/run/clipsync.%U.pid
+ExecStart=python /usr/lib/systemd/scripts/clipsync.py
+ExecStop=python /usr/lib/systemd/scripts/clipsync.py -k
+
+[Install]
+WantedBy=default.target
